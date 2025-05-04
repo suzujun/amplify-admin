@@ -21,6 +21,18 @@ export default defineConfig([
   })),
   eslintPluginPrettierRecommended,
   {
+    name: "prettier-options",
+    rules: {
+      "prettier/prettier": [
+        "error",
+        {
+          tabWidth: 2,
+          useTabs: false,
+        },
+      ],
+    },
+  },
+  {
     name: "react",
     ...react.configs.flat.recommended,
   },
