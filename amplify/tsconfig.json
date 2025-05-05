@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "module": "es2022",
-    "moduleResolution": "bundler",
+    "module": "CommonJS",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

@@ -5,6 +5,8 @@ import comments from '../data/comments';
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response) => {
+    res.header('Content-Range', `comments 0-2/${comments.length}`);
+    res.header('X-Total-Count', `${comments.length}`);
     res.json(comments);
 });
 

@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 // @ts-ignore: 型定義は不要なため除外
-import posts from '../data/posts';
+import users from '../data/users';
 
 const router = express.Router();
 
@@ -8,16 +8,16 @@ interface Post {
     id: number;
 }
 
-type PostParams = { id: string };
+type UserParams = { id: string };
 
 router.get('/', (req, res) => {
-    res.header('Content-Range', `posts 0-2/${posts.length}`);
-    res.header('X-Total-Count', `${posts.length}`);
-    res.json(posts);
+    res.header('Content-Range', `users 0-2/${users.length}`);
+    res.header('X-Total-Count', `${users.length}`);
+    res.json(users);
 });
 
-router.get('/:id', (req: Request<PostParams>, res: Response) => {
-    const post = posts.find((p: Post) => p.id === Number(req.params.id));
+router.get('/:id', (req: Request<UserParams>, res: Response) => {
+    const post = users.find((p: Post) => p.id === Number(req.params.id));
     if (!post) {
         return res.status(404).json({ message: 'Post not found' });
     }

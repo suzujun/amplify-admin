@@ -1,5 +1,5 @@
 import { CognitoAuthProvider } from 'ra-auth-cognito';
-import { CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
+import { CognitoUserPool, CognitoUserSession, CognitoUser } from 'amazon-cognito-identity-js';
 import outputs from "../amplify_outputs.json";
 
 const userPool = new CognitoUserPool({
@@ -7,7 +7,17 @@ const userPool = new CognitoUserPool({
     ClientId: outputs.auth.user_pool_client_id,
 });
 
-const originalAuthProvider = CognitoAuthProvider(userPool);
+const originalAuthProvider = CognitoAuthProvider(userPool, {
+    handleNewPassword: async (
+        user: CognitoUser,
+        setUserState: (state: { status: string }) => void
+    ) => {
+        // 保存して新パスワード入力画面に誘導
+        localStorage.setItem('newPasswordUser', JSON.stringify(user));
+        setUserState({ status: 'newPasswordRequired' });
+        window.location.href = '/new-password';  // Optional: react-router 経由でも可
+    }
+} as any);
 
 export const getJWTToken = () => {
     return new Promise((resolve, reject) => {

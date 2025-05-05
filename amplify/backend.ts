@@ -2,6 +2,7 @@ import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { invokeAdminAPI } from './lambda/resource';
+import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import {
   LambdaIntegration,
@@ -55,3 +56,15 @@ const lambdaIntegration = new LambdaIntegration(
 
 api.root.addMethod('ANY', lambdaIntegration);
 api.root.addResource('{proxy+}').addMethod('ANY', lambdaIntegration);
+
+backend.addOutput({
+  custom: {
+    API: {
+      [api.restApiName]: {
+        endpoint: api.url,
+        region: Stack.of(api).region,
+        apiName: api.restApiName,
+      },
+    },
+  },
+});
